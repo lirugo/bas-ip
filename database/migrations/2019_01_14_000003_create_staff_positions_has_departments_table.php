@@ -10,7 +10,7 @@ class CreateStaffPositionsHasDepartmentsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'staff_positions_has_departments';
+    public $set_schema_table = 'positions_has_departments';
 
     /**
      * Run the migrations.
@@ -23,23 +23,25 @@ class CreateStaffPositionsHasDepartmentsTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('staff_positions_id');
+            $table->unsignedInteger('positions_id');
             $table->unsignedInteger('department_id');
 
-            $table->index(["department_id"], 'fk_staff_positions_has_departments_departments1_idx');
+            $table->index(["department_id"]);
 
-            $table->index(["staff_positions_id"], 'fk_staff_positions_has_departments_staff_positions_idx');
+            $table->index(["positions_id"]);
 
 
-            $table->foreign('staff_positions_id', 'fk_staff_positions_has_departments_staff_positions_idx')
+            $table->foreign('positions_id')
                 ->references('id')->on('staff_positions')
                 ->onDelete('no action')
                 ->onUpdate('no action');
 
-            $table->foreign('department_id', 'fk_staff_positions_has_departments_departments1_idx')
+            $table->foreign('department_id')
                 ->references('id')->on('departments')
                 ->onDelete('no action')
                 ->onUpdate('no action');
+
+            $table->primary(['positions_id', 'department_id']);
         });
     }
 

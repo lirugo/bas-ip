@@ -24,16 +24,16 @@ class CreateEmployeesNameTable extends Migration
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->unsignedInteger('employees_id');
+            $table->unsignedInteger('employee_id');
             $table->string('first', 45);
             $table->string('middle', 45)->nullable();
             $table->string('last', 45);
             $table->enum('language', ['en']);
 
-            $table->index(["employees_id"], 'fk_employees_name_employees1_idx');
+            $table->index(["employee_id"], 'fk_employees_name_employees1_idx');
 
 
-            $table->foreign('employees_id', 'fk_employees_name_employees1_idx')
+            $table->foreign('employee_id', 'fk_employees_name_employees1_idx')
                 ->references('id')->on('employees')
                 ->onDelete('no action')
                 ->onUpdate('no action');

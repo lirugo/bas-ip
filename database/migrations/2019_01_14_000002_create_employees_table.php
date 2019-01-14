@@ -25,7 +25,7 @@ class CreateEmployeesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('department_id');
-            $table->string('email', 45);
+            $table->string('email', 70);
 
             $table->index(["department_id"], 'fk_employees_departments1_idx');
 

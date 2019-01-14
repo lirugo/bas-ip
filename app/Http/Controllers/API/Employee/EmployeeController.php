@@ -8,6 +8,6 @@ use App\Models\Employee\Employee;
 class EmployeeController extends Controller
 {
     public function index(){
-        return Employee::get();
+        return Employee::with('name', 'department', 'staffPositions')->get();
     }
 }
