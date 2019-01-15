@@ -20,7 +20,7 @@ class Employee extends Model
     }
 
     public function staffPositions(){
-        return $this->belongsToMany(StaffPosition::class, 'positions_has_employees', 'positions_id', 'employees_id')->withPivot('salary');
+        return $this->belongsToMany(StaffPosition::class, 'positions_has_employees', 'employees_id', 'positions_id')->withPivot('salary');
     }
 
     /**

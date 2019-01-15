@@ -57789,98 +57789,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             headers: [{
-                text: 'Dessert (100g serving)',
+                text: 'Name',
                 align: 'left',
-                sortable: false,
-                value: 'name'
-            }, { text: 'Calories', value: 'calories' }, { text: 'Fat (g)', value: 'fat' }, { text: 'Carbs (g)', value: 'carbs' }, { text: 'Protein (g)', value: 'protein' }, { text: 'Iron (%)', value: 'iron' }],
-            desserts: [{
-                value: false,
-                name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                iron: '1%'
-            }, {
-                value: false,
-                name: 'Ice cream sandwich',
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                iron: '1%'
-            }, {
-                value: false,
-                name: 'Eclair',
-                calories: 262,
-                fat: 16.0,
-                carbs: 23,
-                protein: 6.0,
-                iron: '7%'
-            }, {
-                value: false,
-                name: 'Cupcake',
-                calories: 305,
-                fat: 3.7,
-                carbs: 67,
-                protein: 4.3,
-                iron: '8%'
-            }, {
-                value: false,
-                name: 'Gingerbread',
-                calories: 356,
-                fat: 16.0,
-                carbs: 49,
-                protein: 3.9,
-                iron: '16%'
-            }, {
-                value: false,
-                name: 'Jelly bean',
-                calories: 375,
-                fat: 0.0,
-                carbs: 94,
-                protein: 0.0,
-                iron: '0%'
-            }, {
-                value: false,
-                name: 'Lollipop',
-                calories: 392,
-                fat: 0.2,
-                carbs: 98,
-                protein: 0,
-                iron: '2%'
-            }, {
-                value: false,
-                name: 'Honeycomb',
-                calories: 408,
-                fat: 3.2,
-                carbs: 87,
-                protein: 6.5,
-                iron: '45%'
-            }, {
-                value: false,
-                name: 'Donut',
-                calories: 452,
-                fat: 25.0,
-                carbs: 51,
-                protein: 4.9,
-                iron: '22%'
-            }, {
-                value: false,
-                name: 'KitKat',
-                calories: 518,
-                fat: 26.0,
-                carbs: 65,
-                protein: 7,
-                iron: '6%'
-            }]
+                value: 'first_name'
+            }, { text: 'Email', value: 'email' }, { text: 'Department', value: 'dep' }, { text: 'Staff Positions', value: 'staffPosition', sortable: false }, { text: 'Total Salary', value: 'totalSalary', sortable: false }],
+            employees: [],
+            pagination: {
+                descending: false,
+                sortBy: '',
+                page: 1,
+                lastPage: 1,
+                rowsPerPage: 10,
+                rowsPerPageItems: [5, 10, 20],
+                totalItems: 0
+            },
+            loading: false
         };
+    },
+    created: function created() {
+        this.getEmployees();
+    },
+
+    watch: {
+        'pagination.page': {
+            handler: function handler() {
+                this.getEmployees();
+            },
+
+            deep: true
+        }
+    },
+    methods: {
+        getEmployees: function getEmployees() {
+            var _this = this;
+
+            this.loading = true;
+            var config = {
+                params: {
+                    page: this.pagination.page,
+                    rowsPerPage: this.pagination.rowsPerPage,
+                    sortBy: this.pagination.sortBy,
+                    descending: this.pagination.descending
+                }
+            };
+            axios.get('/api/employees/', config).then(function (res) {
+                return res.data;
+            }).then(function (res) {
+                _this.employees = res.data;
+                _this.pagination.totalItems = res.meta.total;
+            }).finally(function () {
+                return _this.loading = false;
+            }).catch(function (err) {
+                return console.warn(err);
+            });
+        }
     }
 });
 
@@ -57909,7 +57881,19 @@ var render = function() {
                 [
                   _c("v-data-table", {
                     staticClass: "elevation-1",
-                    attrs: { headers: _vm.headers, items: _vm.desserts },
+                    attrs: {
+                      headers: _vm.headers,
+                      items: _vm.employees,
+                      loading: _vm.loading,
+                      pagination: _vm.pagination,
+                      "total-items": _vm.pagination.totalItems,
+                      "rows-per-page-items": _vm.pagination.rowsPerPageItems
+                    },
+                    on: {
+                      "update:pagination": function($event) {
+                        _vm.pagination = $event
+                      }
+                    },
                     scopedSlots: _vm._u([
                       {
                         key: "items",
@@ -57918,23 +57902,28 @@ var render = function() {
                             _c("td", [_vm._v(_vm._s(props.item.name))]),
                             _vm._v(" "),
                             _c("td", { staticClass: "text-xs-right" }, [
-                              _vm._v(_vm._s(props.item.calories))
+                              _vm._v(_vm._s(props.item.email))
                             ]),
                             _vm._v(" "),
                             _c("td", { staticClass: "text-xs-right" }, [
-                              _vm._v(_vm._s(props.item.fat))
+                              _vm._v(_vm._s(props.item.department))
                             ]),
                             _vm._v(" "),
-                            _c("td", { staticClass: "text-xs-right" }, [
-                              _vm._v(_vm._s(props.item.carbs))
-                            ]),
+                            _c(
+                              "td",
+                              { staticClass: "text-xs-right" },
+                              _vm._l(props.item.staffPositions, function(
+                                position
+                              ) {
+                                return _c("span", [
+                                  _vm._v(_vm._s(position.name) + " ")
+                                ])
+                              }),
+                              0
+                            ),
                             _vm._v(" "),
                             _c("td", { staticClass: "text-xs-right" }, [
-                              _vm._v(_vm._s(props.item.protein))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", { staticClass: "text-xs-right" }, [
-                              _vm._v(_vm._s(props.item.iron))
+                              _vm._v(_vm._s(props.item.totalSalary))
                             ])
                           ]
                         }
