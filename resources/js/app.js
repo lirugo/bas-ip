@@ -22,11 +22,13 @@ Vue.use(VueRouter)
 
 //Imports components
 import WidgetEmployeeList from './components/employee/List'
+import WidgetEmployeeCreate from './components/employee/Create'
 
 //Routes
 const routes = [
     //Employees
     { path: '/', component: WidgetEmployeeList},
+    { path: '/create', component: WidgetEmployeeCreate},
 
 ]
 

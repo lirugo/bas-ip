@@ -29635,6 +29635,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_router__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_employee_List__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_employee_List___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_employee_List__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_employee_Create__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_employee_Create___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_employee_Create__);
 
 __webpack_require__(15);
 
@@ -29660,10 +29662,11 @@ __WEBPACK_IMPORTED_MODULE_2_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vue_
 //Imports components
 
 
+
 //Routes
 var routes = [
 //Employees
-{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_employee_List___default.a }];
+{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_employee_List___default.a }, { path: '/create', component: __WEBPACK_IMPORTED_MODULE_7__components_employee_Create___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_5_vue_router__["a" /* default */]({
     routes: routes
@@ -57958,6 +57961,492 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 55 */,
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(51)
+/* script */
+var __vue_script__ = __webpack_require__(57)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/employee/Create.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-afc914bc", Component.options)
+  } else {
+    hotAPI.reload("data-v-afc914bc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            employee: {
+                firstName: '',
+                middleName: '',
+                lastName: '',
+                email: '',
+                department: '',
+                staffPositions: []
+            },
+            departments: [],
+            staffPositions: []
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        //Get departments
+        fetch('/api/departments').then(function (res) {
+            return res.json();
+        }).then(function (json) {
+            return _this.departments = json;
+        }).catch(function (err) {
+            return console.warn(err);
+        });
+        //Get staff positions
+        fetch('/api/staffpositions').then(function (res) {
+            return res.json();
+        }).then(function (json) {
+            return _this.staffPositions = json;
+        }).catch(function (err) {
+            return console.warn(err);
+        });
+    },
+
+    methods: {
+        storeEmployee: function storeEmployee() {
+            axios.post('/api/employees', this.employee).then(function (res) {
+                return console.log(res);
+            }).catch(function (err) {
+                return console.warn(err);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    { attrs: { fluid: "", "grid-list-md": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", md6: "", "offset-md3": "" } },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-text", { staticClass: "pb-0" }, [
+                    _c("h3", { staticClass: "text-md-center headline" }, [
+                      _vm._v(
+                        "\n                            Create Employee\n                        "
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md4: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  counter: 10,
+                                  label: "First name",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.employee.firstName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.employee, "firstName", $$v)
+                                  },
+                                  expression: "employee.firstName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md4: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  counter: 10,
+                                  label: "Middle name",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.employee.middleName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.employee, "middleName", $$v)
+                                  },
+                                  expression: "employee.middleName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md4: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  counter: 10,
+                                  label: "Last name",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.employee.lastName,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.employee, "lastName", $$v)
+                                  },
+                                  expression: "employee.lastName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md6: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: { label: "Email", required: "" },
+                                model: {
+                                  value: _vm.employee.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.employee, "email", $$v)
+                                  },
+                                  expression: "employee.email"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md6: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: { label: "Salary", required: "" },
+                                model: {
+                                  value: _vm.employee.salary,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.employee, "salary", $$v)
+                                  },
+                                  expression: "employee.salary"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md6: "" } },
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  items: _vm.departments,
+                                  "item-value": "id",
+                                  "item-text": "name",
+                                  label: "Select Department"
+                                },
+                                model: {
+                                  value: _vm.employee.department,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.employee, "department", $$v)
+                                  },
+                                  expression: "employee.department"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", md6: "", "d-flex": "" } },
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  items: _vm.staffPositions,
+                                  "item-value": "id",
+                                  "item-text": "name",
+                                  multiple: "",
+                                  label: "Select Staff Positions"
+                                },
+                                model: {
+                                  value: _vm.employee.staffPositions,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.employee,
+                                      "staffPositions",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "employee.staffPositions"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            color: "success",
+                            dark: "",
+                            absolute: "",
+                            bottom: "",
+                            right: "",
+                            fab: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.storeEmployee()
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("add")])],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-afc914bc", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

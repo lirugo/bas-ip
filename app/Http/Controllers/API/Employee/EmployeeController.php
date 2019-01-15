@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee\Employee;
+use App\Models\Employee\Name;
+use App\Models\Hierarchy\Department;
+use App\Models\Hierarchy\StaffPosition;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class EmployeeController extends Controller
@@ -32,5 +36,37 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee){
         return new EmployeeResource($employee);
+    }
+
+    public function store(Request $request){
+        //Validate
+
+        //Persist
+        $employee = Employee::create([
+            'department_id' => $request->department,
+            'email' => $request->email
+        ]);
+        //Name
+        $employee->name()->save(new Name([
+            'first' => $request->firstName,
+            'middle' => $request->middleName,
+            'last' => $request->lastName,
+        ]));
+        //StaffPosition
+        for($i = 0; $i < count($request->staffPositions); $i++)
+            $employee->staffPositions()->attach([$request->staffPositions[$i] => ['salary' => $request->salary]]);
+
+        //Return
+        return response()->json(new EmployeeResource($employee), 201);
+    }
+
+
+    //TODO:: Move it
+    public function departments(){
+        return Department::get();
+    }
+
+    public function staffPositions(){
+        return StaffPosition::get();
     }
 }
