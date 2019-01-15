@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Employee\StoreEmployee;
 use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee\Employee;
 use App\Models\Employee\Name;
 use App\Models\Hierarchy\Department;
 use App\Models\Hierarchy\StaffPosition;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class EmployeeController extends Controller
@@ -38,7 +38,7 @@ class EmployeeController extends Controller
         return new EmployeeResource($employee);
     }
 
-    public function store(Request $request){
+    public function store(StoreEmployee $request){
         //Validate
 
         //Persist

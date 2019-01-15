@@ -58146,9 +58146,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
+        var _this = this;
+
         return {
             employee: {
                 firstName: '',
@@ -58158,18 +58178,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 department: '',
                 staffPositions: []
             },
+            rules: {
+                valid: true,
+                name: [function (v) {
+                    return !!v || 'Name is required';
+                }, function (v) {
+                    return v && v.length <= 10 || 'Name must be less than 10 characters';
+                }],
+                email: [function (v) {
+                    return !!v || 'E-mail is required';
+                }, function (v) {
+                    return (/.+@.+/.test(v) || 'E-mail must be valid'
+                    );
+                }],
+                salary: [function (v) {
+                    return !!v || 'Salary is required';
+                }, function (v) {
+                    return v && v.length > 2 || 'Salary must be valid more then 100$';
+                }],
+                select: [function (v) {
+                    return !!v || 'Item is required';
+                }],
+                multiSelect: [function (v) {
+                    return _this.employee.staffPositions.length != 0 || 'Item is required';
+                }]
+            },
             departments: [],
-            staffPositions: []
+            staffPositions: [],
+            snackbar: false,
+            response: '',
+            color: 'success'
         };
     },
     created: function created() {
-        var _this = this;
+        var _this2 = this;
 
         //Get departments
         fetch('/api/departments').then(function (res) {
             return res.json();
         }).then(function (json) {
-            return _this.departments = json;
+            return _this2.departments = json;
         }).catch(function (err) {
             return console.warn(err);
         });
@@ -58177,18 +58225,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fetch('/api/staffpositions').then(function (res) {
             return res.json();
         }).then(function (json) {
-            return _this.staffPositions = json;
+            return _this2.staffPositions = json;
         }).catch(function (err) {
             return console.warn(err);
         });
     },
 
     methods: {
+        validate: function validate() {
+            if (this.$refs.form.validate()) {
+                this.snackbar = true;
+            }
+        },
+        reset: function reset() {
+            this.$refs.form.reset();
+        },
+        resetValidation: function resetValidation() {
+            this.$refs.form.resetValidation();
+        },
         storeEmployee: function storeEmployee() {
-            axios.post('/api/employees', this.employee).then(function (res) {
-                return console.log(res);
+            var _this3 = this;
+
+            this.validate();
+            if (this.rules.valid === true) axios.post('/api/employees', this.employee).then(function (res) {
+                if (res.status === 201) {
+                    _this3.color = 'success';
+                    _this3.snackbar = true;
+                    _this3.response = 'Employee was be created';
+                    _this3.reset();
+                    _this3.resetValidation();
+                }
             }).catch(function (err) {
-                return console.warn(err);
+                _this3.color = 'error';
+                if (err.response.status === 422) {
+                    _this3.snackbar = true;
+                    _this3.response = err.response.data.message;
+                }
+                if (err.response.status === 500) {
+                    _this3.snackbar = true;
+                    _this3.response = 'Server error';
+                }
             });
         }
     }
@@ -58206,6 +58282,21 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "", "grid-list-md": "" } },
     [
+      _c(
+        "v-snackbar",
+        {
+          attrs: { left: "", color: _vm.color },
+          model: {
+            value: _vm.snackbar,
+            callback: function($$v) {
+              _vm.snackbar = $$v
+            },
+            expression: "snackbar"
+          }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.response) + "\n    ")]
+      ),
+      _vm._v(" "),
       _c(
         "v-layout",
         { attrs: { row: "", wrap: "" } },
@@ -58229,197 +58320,233 @@ var render = function() {
                     "v-card-text",
                     [
                       _c(
-                        "v-layout",
-                        { attrs: { row: "", wrap: "" } },
-                        [
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  counter: 10,
-                                  label: "First name",
-                                  required: ""
-                                },
-                                model: {
-                                  value: _vm.employee.firstName,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.employee, "firstName", $$v)
-                                  },
-                                  expression: "employee.firstName"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  counter: 10,
-                                  label: "Middle name",
-                                  required: ""
-                                },
-                                model: {
-                                  value: _vm.employee.middleName,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.employee, "middleName", $$v)
-                                  },
-                                  expression: "employee.middleName"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md4: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  counter: 10,
-                                  label: "Last name",
-                                  required: ""
-                                },
-                                model: {
-                                  value: _vm.employee.lastName,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.employee, "lastName", $$v)
-                                  },
-                                  expression: "employee.lastName"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-layout",
-                        { attrs: { row: "", wrap: "" } },
-                        [
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md6: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Email", required: "" },
-                                model: {
-                                  value: _vm.employee.email,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.employee, "email", $$v)
-                                  },
-                                  expression: "employee.email"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md6: "" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: { label: "Salary", required: "" },
-                                model: {
-                                  value: _vm.employee.salary,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.employee, "salary", $$v)
-                                  },
-                                  expression: "employee.salary"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-layout",
-                        { attrs: { row: "", wrap: "" } },
-                        [
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md6: "" } },
-                            [
-                              _c("v-select", {
-                                attrs: {
-                                  items: _vm.departments,
-                                  "item-value": "id",
-                                  "item-text": "name",
-                                  label: "Select Department"
-                                },
-                                model: {
-                                  value: _vm.employee.department,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.employee, "department", $$v)
-                                  },
-                                  expression: "employee.department"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "", md6: "", "d-flex": "" } },
-                            [
-                              _c("v-select", {
-                                attrs: {
-                                  items: _vm.staffPositions,
-                                  "item-value": "id",
-                                  "item-text": "name",
-                                  multiple: "",
-                                  label: "Select Staff Positions"
-                                },
-                                model: {
-                                  value: _vm.employee.staffPositions,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.employee,
-                                      "staffPositions",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "employee.staffPositions"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
+                        "v-form",
                         {
-                          attrs: {
-                            color: "success",
-                            dark: "",
-                            absolute: "",
-                            bottom: "",
-                            right: "",
-                            fab: ""
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.storeEmployee()
-                            }
+                          ref: "form",
+                          model: {
+                            value: _vm.rules.valid,
+                            callback: function($$v) {
+                              _vm.$set(_vm.rules, "valid", $$v)
+                            },
+                            expression: "rules.valid"
                           }
                         },
-                        [_c("v-icon", [_vm._v("add")])],
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { row: "", wrap: "" } },
+                            [
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      counter: 10,
+                                      label: "First name",
+                                      rules: _vm.rules.name,
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.employee.firstName,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.employee, "firstName", $$v)
+                                      },
+                                      expression: "employee.firstName"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Middle name",
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.employee.middleName,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.employee,
+                                          "middleName",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "employee.middleName"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md4: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      counter: 10,
+                                      label: "Last name",
+                                      rules: _vm.rules.name,
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.employee.lastName,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.employee, "lastName", $$v)
+                                      },
+                                      expression: "employee.lastName"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-layout",
+                            { attrs: { row: "", wrap: "" } },
+                            [
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md6: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Email",
+                                      rules: _vm.rules.email,
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.employee.email,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.employee, "email", $$v)
+                                      },
+                                      expression: "employee.email"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md6: "" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "number",
+                                      label: "Salary",
+                                      rules: _vm.rules.salary,
+                                      required: ""
+                                    },
+                                    model: {
+                                      value: _vm.employee.salary,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.employee, "salary", $$v)
+                                      },
+                                      expression: "employee.salary"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-layout",
+                            { attrs: { row: "", wrap: "" } },
+                            [
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md6: "" } },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm.departments,
+                                      "item-value": "id",
+                                      rules: _vm.rules.select,
+                                      "item-text": "name",
+                                      label: "Select Department"
+                                    },
+                                    model: {
+                                      value: _vm.employee.department,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.employee,
+                                          "department",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "employee.department"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "", md6: "", "d-flex": "" } },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm.staffPositions,
+                                      "item-value": "id",
+                                      "item-text": "name",
+                                      rules: _vm.rules.multiSelect,
+                                      multiple: "",
+                                      label: "Select Staff Positions"
+                                    },
+                                    model: {
+                                      value: _vm.employee.staffPositions,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.employee,
+                                          "staffPositions",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "employee.staffPositions"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "success",
+                                dark: "",
+                                absolute: "",
+                                bottom: "",
+                                right: "",
+                                fab: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.storeEmployee()
+                                }
+                              }
+                            },
+                            [_c("v-icon", [_vm._v("add")])],
+                            1
+                          )
+                        ],
                         1
                       )
                     ],
