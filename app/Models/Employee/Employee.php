@@ -20,6 +20,21 @@ class Employee extends Model
     }
 
     public function staffPositions(){
-        return $this->belongsToMany(StaffPosition::class, 'positions_has_departments', 'staff_positions_id', 'employees_id');
+        return $this->belongsToMany(StaffPosition::class, 'positions_has_employees', 'positions_id', 'employees_id')->withPivot('salary');
     }
+
+    /**
+     * Get salary from all staff positions
+     * @return int
+     */
+    public function getTotalSalary(){
+        $salary = 0;
+
+        foreach ($this->staffPositions as $staffPosition){
+            $salary += $staffPosition->pivot->salary;
+        }
+
+        return $salary;
+    }
+
 }
